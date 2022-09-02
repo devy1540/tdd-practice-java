@@ -14,6 +14,7 @@ public class Utils {
         return list;
     }
     public String refineText(String source, List<String> options) {
+        source = source.trim();
         source = this.normalizeWhiteSpaces(source);
         source = this.compactWhiteSpaces(source);
         source = this.maskBannedWords(source, (!Objects.isNull(options))?(options):(this.getBannedWords()));

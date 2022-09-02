@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.*;
 
 class RefineTextTest {
     List<String> list = new ArrayList<>();
-    List<String> maskedList = new ArrayList<>();
 
     Utils refineTextUtils = new Utils();
 
@@ -26,9 +26,6 @@ class RefineTextTest {
         list.add("hello     world");
         list.add("hello      world");
         list.add("hello\tworld");
-
-        maskedList.add("hello mockist");
-        maskedList.add("hello purist");
 
     }
 
@@ -43,9 +40,23 @@ class RefineTextTest {
     @Test
     @DisplayName("마스킹 테스트")
     void maskingTest() {
+        List<String> maskedList = new ArrayList<>();
+        maskedList.add("hello mockist");
+        maskedList.add("hello purist");
+
         for(String s : maskedList) {
             String masked = s.replaceAll("(?<=.{6}).", "*");
             assertEquals(masked, refineTextUtils.maskBannedWords(s, null));
+        }
+    }
+
+    @Test
+    @DisplayName("문자열 앞에 있는 공백제거")
+    void frontTrimTest() {
+        List<String> testData = new ArrayList<>();
+        testData.add(" hello world");
+        for(String s : testData) {
+            assertEquals("hello world", refineTextUtils.refineText(s, null));
         }
     }
 }
